@@ -1,0 +1,15 @@
+# dependencies
+node_modules/
+.sanity/
+dist/
+build/
+
+# env / secrets
+.env
+.env.*
+
+# os / editor
+.DS_Store
+*.log
+.vscode/
+.idea/

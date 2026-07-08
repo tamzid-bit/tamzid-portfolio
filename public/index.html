@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Tamzid Rahman — Audio Engineer & Producer</title>
+  <meta name="description" content="Tamzid Rahman — Mumbai-based audio engineer, mixing & mastering engineer, producer. Founder of Space Cat Studio." />
+  <meta property="og:title" content="Tamzid Rahman — Audio Engineer & Producer" />
+  <meta property="og:description" content="Mix, master & production across Pop, R&B, Hip Hop, Jazz, Electronic & Gospel. Founder of Space Cat Studio, Mumbai." />
+  <meta property="og:type" content="website" />
+  <link rel="preconnect" href="https://apicdn.sanity.io" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" />
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <!-- Progress rail -->
+  <div class="scroll-rail" aria-hidden="true"><span class="scroll-rail__fill" id="railFill"></span></div>
+
+  <!-- Header -->
+  <header class="nav" id="nav">
+    <a class="nav__brand" href="#top" aria-label="Tamzid Rahman — home">
+      <span class="nav__mark">◐</span>
+      <span class="nav__name">Tamzid Rahman</span>
+    </a>
+    <nav class="nav__links" aria-label="Primary">
+      <a href="#work">Work</a>
+      <a href="#projects">Projects</a>
+      <a href="#about">About</a>
+      <a href="#teaching">Teaching</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <button class="nav__cmd" id="openPalette" aria-label="Open command menu">
+      <kbd>⌘</kbd><kbd>K</kbd>
+    </button>
+  </header>
+
+  <main id="top">
+    <!-- Hero -->
+    <section class="hero" id="hero">
+      <div class="hero__grain" aria-hidden="true"></div>
+      <div class="hero__inner">
+        <p class="hero__eyebrow" data-reveal>Audio Engineer · Producer · Educator — Mumbai</p>
+        <h1 class="hero__title" data-reveal>
+          I make records<br /><span class="hero__accent">sound like they mean it.</span>
+        </h1>
+        <p class="hero__lede" data-reveal>
+          Mixing, mastering and production across Pop, R&B, Hip&nbsp;Hop, Jazz, Electronic and Gospel.
+          Founder of <a href="https://spacecat.in" target="_blank" rel="noopener">Space Cat Studio</a> — a hybrid
+          analog/digital facility in Andheri West.
+        </p>
+        <div class="hero__actions" data-reveal>
+          <a class="btn btn--primary" href="#work">Explore the work</a>
+          <a class="btn btn--ghost" href="#contact">Book the studio</a>
+        </div>
+        <dl class="hero__stats" data-reveal>
+          <div><dt id="statTracks">—</dt><dd>tracks shipped</dd></div>
+          <div><dt id="statGenres">6</dt><dd>genres</dd></div>
+          <div><dt>2020</dt><dd>studio founded</dd></div>
+        </dl>
+      </div>
+      <button class="hero__scroll" data-scroll-to="#work" aria-label="Scroll to work">↓</button>
+    </section>
+
+    <!-- Work: genre grid -->
+    <section class="section" id="work">
+      <div class="section__head" data-reveal>
+        <span class="section__index">01 — Mix &amp; Master</span>
+        <h2 class="section__title">Pick a genre. Hear what lives there.</h2>
+        <p class="section__note">Every tile opens a floating shelf of the records I mixed, mastered or produced in that lane.</p>
+      </div>
+      <div class="genre-grid" id="genreGrid" role="list" aria-label="Genres">
+        <!-- genre tiles injected -->
+      </div>
+    </section>
+
+    <!-- Projects -->
+    <section class="section section--alt" id="projects">
+      <div class="section__head" data-reveal>
+        <span class="section__index">02 — Selected Projects</span>
+        <h2 class="section__title">Beyond the record.</h2>
+        <p class="section__note">Filter by the kind of work. Cards open a floating player with the detail.</p>
+      </div>
+      <div class="chips" id="projectFilters" role="tablist" aria-label="Project filters"></div>
+      <div class="project-grid" id="projectGrid" role="list"></div>
+    </section>
+
+    <!-- About -->
+    <section class="section" id="about">
+      <div class="about">
+        <div class="about__copy" data-reveal>
+          <span class="section__index">03 — About</span>
+          <h2 class="section__title">From Yash Raj rooms to my own.</h2>
+          <p>Degree in audio engineering from SAE, Pro&nbsp;Tools certified. I cut my teeth at Yash Raj Studios
+             before opening <strong>Space Cat Studio</strong> in August 2020 — two rooms where analog warmth meets a
+             fully in-the-box workflow.</p>
+          <p>The work runs from intimate singer-songwriter mixes to brand films, streaming BGM and live theatre.
+             Whatever the source, the job is the same: get out of the song's way, then make it hit.</p>
+        </div>
+        <ul class="about__facts" data-reveal>
+          <li><span>Base</span> Andheri West, Mumbai</li>
+          <li><span>Rooms</span> Two hybrid suites</li>
+          <li><span>Services</span> Record · Mix · Master · Acoustic consult</li>
+          <li><span>Also</span> Guest lecturer, AAT College</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Teaching -->
+    <section class="section section--alt" id="teaching">
+      <div class="section__head" data-reveal>
+        <span class="section__index">04 — Teaching</span>
+        <h2 class="section__title">Passing the desk on.</h2>
+      </div>
+      <div class="teach-grid" data-reveal>
+        <article class="teach-card">
+          <h3>Guest Lecturer — AAT College</h3>
+          <p>Workshops on production, recording, mixing, mastering and studio workflow.</p>
+        </article>
+        <article class="teach-card">
+          <h3>Space Cat Internships</h3>
+          <p>Hands-on mentoring in engineering, production and building a career in audio.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section class="section contact" id="contact">
+      <div class="contact__inner" data-reveal>
+        <span class="section__index">05 — Contact</span>
+        <h2 class="contact__title">Let's make something that lasts.</h2>
+        <div class="contact__links">
+          <a href="mailto:tamzid@spacecat.in" class="contact__link">tamzid@spacecat.in</a>
+          <a href="tel:+919435188317" class="contact__link">+91 94351 88317</a>
+          <a href="https://spacecat.in" target="_blank" rel="noopener" class="contact__link">spacecat.in</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <span>© <span id="year"></span> Tamzid Rahman</span>
+    <span>Mumbai · Built for the ears</span>
+  </footer>
+
+  <!-- Floating screen: genre shelf / song detail -->
+  <div class="overlay" id="overlay" aria-hidden="true">
+    <div class="overlay__scrim" data-close></div>
+    <div class="overlay__panel" role="dialog" aria-modal="true" aria-labelledby="overlayTitle" id="overlayPanel">
+      <button class="overlay__close" data-close aria-label="Close">✕</button>
+      <div class="overlay__body" id="overlayBody"><!-- injected --></div>
+    </div>
+  </div>
+
+  <!-- Command palette -->
+  <div class="palette" id="palette" aria-hidden="true">
+    <div class="palette__scrim" data-palette-close></div>
+    <div class="palette__box" role="dialog" aria-modal="true" aria-label="Command menu">
+      <input class="palette__input" id="paletteInput" type="text" placeholder="Jump to a section, genre or track…" autocomplete="off" />
+      <ul class="palette__list" id="paletteList" role="listbox"></ul>
+    </div>
+  </div>
+
+  <script src="./data.js"></script>
+  <script src="./app.js"></script>
+</body>
+</html>
