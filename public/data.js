@@ -26,24 +26,24 @@ const DEMO_DATA = {
   ],
 
   /* roles: 'Mix' | 'Master' | 'Produce' — any combination.
-     youtube: paste the real per-song YouTube URL from your old site.
-     cover:   a real artwork URL (or Sanity image). Empty = generated cover.
-     The youtube values below are placeholder search links so the button
-     works in the preview — replace them with your actual video URLs.       */
+     youtube: the real per-song YouTube URL (empty for now — to be filled from
+              your Wix catalog). cover: real artwork URL/Sanity image, or empty
+              for the generated waveform cover.
+     NOTE: titles/artists below are PLACEHOLDERS awaiting your real catalog.   */
   tracks: [
-    { title: 'Neon Sundays',     artist: 'Maya Sol',        genre: 'pop',        year: 2024, roles: ['Mix','Master'],           youtube: 'https://www.youtube.com/results?search_query=Maya+Sol+Neon+Sundays', cover: '' },
-    { title: 'Paper Planes',     artist: 'The Lofts',       genre: 'pop',        year: 2023, roles: ['Mix'],                    youtube: 'https://www.youtube.com/results?search_query=The+Lofts+Paper+Planes', cover: '' },
-    { title: 'Overexposed',      artist: 'Rue',             genre: 'pop',        year: 2025, roles: ['Mix','Master','Produce'], youtube: 'https://www.youtube.com/results?search_query=Rue+Overexposed', cover: '' },
-    { title: 'Velvet Hours',     artist: 'Anaya',           genre: 'rnb',        year: 2024, roles: ['Mix','Master'],           youtube: 'https://www.youtube.com/results?search_query=Anaya+Velvet+Hours', cover: '' },
-    { title: 'Slow Burn',        artist: 'Devon K',         genre: 'rnb',        year: 2023, roles: ['Mix'],                    youtube: 'https://www.youtube.com/results?search_query=Devon+K+Slow+Burn', cover: '' },
-    { title: 'Cold Gold',        artist: 'Bilal Ray',       genre: 'hiphop',     year: 2025, roles: ['Mix','Master'],           youtube: 'https://www.youtube.com/results?search_query=Bilal+Ray+Cold+Gold', cover: '' },
-    { title: 'City of Ghosts',   artist: 'MC Aviator',      genre: 'hiphop',     year: 2024, roles: ['Produce','Mix'],          youtube: 'https://www.youtube.com/results?search_query=MC+Aviator+City+of+Ghosts', cover: '' },
-    { title: 'Blue Note Diner',  artist: 'The Andheri Trio',genre: 'jazz',       year: 2023, roles: ['Mix','Master'],           youtube: 'https://www.youtube.com/results?search_query=The+Andheri+Trio+Blue+Note+Diner', cover: '' },
-    { title: 'After Hours Set',  artist: 'Nadia Q',         genre: 'jazz',       year: 2022, roles: ['Master'],                 youtube: 'https://www.youtube.com/results?search_query=Nadia+Q+After+Hours+Set', cover: '' },
-    { title: 'Signal / Noise',   artist: 'HEX',             genre: 'electronic', year: 2025, roles: ['Produce','Mix','Master'], youtube: 'https://www.youtube.com/results?search_query=HEX+Signal+Noise', cover: '' },
-    { title: 'Substation',       artist: 'Kilo Meter',      genre: 'electronic', year: 2024, roles: ['Mix'],                    youtube: 'https://www.youtube.com/results?search_query=Kilo+Meter+Substation', cover: '' },
-    { title: 'Rise (Choir Mix)', artist: 'New Dawn Voices', genre: 'gospel',     year: 2024, roles: ['Mix','Master'],           youtube: 'https://www.youtube.com/results?search_query=New+Dawn+Voices+Rise', cover: '' },
-    { title: 'Higher Ground',    artist: 'Grace Union',     genre: 'gospel',     year: 2023, roles: ['Mix'],                    youtube: 'https://www.youtube.com/results?search_query=Grace+Union+Higher+Ground', cover: '' },
+    { title: 'Neon Sundays',     artist: 'Maya Sol',        genre: 'pop',        year: 2024, roles: ['Mix','Master'],           youtube: '', cover: '' },
+    { title: 'Paper Planes',     artist: 'The Lofts',       genre: 'pop',        year: 2023, roles: ['Mix'],                    youtube: '', cover: '' },
+    { title: 'Overexposed',      artist: 'Rue',             genre: 'pop',        year: 2025, roles: ['Mix','Master','Produce'], youtube: '', cover: '' },
+    { title: 'Velvet Hours',     artist: 'Anaya',           genre: 'rnb',        year: 2024, roles: ['Mix','Master'],           youtube: '', cover: '' },
+    { title: 'Slow Burn',        artist: 'Devon K',         genre: 'rnb',        year: 2023, roles: ['Mix'],                    youtube: '', cover: '' },
+    { title: 'Cold Gold',        artist: 'Bilal Ray',       genre: 'hiphop',     year: 2025, roles: ['Mix','Master'],           youtube: '', cover: '' },
+    { title: 'City of Ghosts',   artist: 'MC Aviator',      genre: 'hiphop',     year: 2024, roles: ['Produce','Mix'],          youtube: '', cover: '' },
+    { title: 'Blue Note Diner',  artist: 'The Andheri Trio',genre: 'jazz',       year: 2023, roles: ['Mix','Master'],           youtube: '', cover: '' },
+    { title: 'After Hours Set',  artist: 'Nadia Q',         genre: 'jazz',       year: 2022, roles: ['Master'],                 youtube: '', cover: '' },
+    { title: 'Signal / Noise',   artist: 'HEX',             genre: 'electronic', year: 2025, roles: ['Produce','Mix','Master'], youtube: '', cover: '' },
+    { title: 'Substation',       artist: 'Kilo Meter',      genre: 'electronic', year: 2024, roles: ['Mix'],                    youtube: '', cover: '' },
+    { title: 'Rise (Choir Mix)', artist: 'New Dawn Voices', genre: 'gospel',     year: 2024, roles: ['Mix','Master'],           youtube: '', cover: '' },
+    { title: 'Higher Ground',    artist: 'Grace Union',     genre: 'gospel',     year: 2023, roles: ['Mix'],                    youtube: '', cover: '' },
   ],
 
   projects: [
