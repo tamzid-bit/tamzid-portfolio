@@ -28,7 +28,6 @@
       <a href="#work">Work</a>
       <a href="#projects">Projects</a>
       <a href="#about">About</a>
-      <a href="#teaching">Teaching</a>
       <a href="#contact">Contact</a>
     </nav>
     <button class="nav__cmd" id="openPalette" aria-label="Open command menu">
@@ -39,6 +38,7 @@
   <main id="top">
     <!-- Hero -->
     <section class="hero" id="hero">
+      <div class="hero__collage" id="heroCollage" aria-hidden="true"></div>
       <div class="hero__grain" aria-hidden="true"></div>
       <div class="hero__inner">
         <p class="hero__eyebrow" data-reveal>Audio Engineer · Producer · Educator — Mumbai</p>
@@ -70,9 +70,14 @@
         <h2 class="section__title">Pick a genre. Hear what lives there.</h2>
         <p class="section__note">Every tile opens a floating shelf of the records I mixed, mastered or produced in that lane.</p>
       </div>
-      <div class="genre-grid" id="genreGrid" role="list" aria-label="Genres">
-        <!-- genre tiles injected -->
+      <div class="genre-rail-wrap" data-reveal>
+        <button class="rail-edge rail-edge--prev" id="railPrev" aria-label="Scroll genres left" tabindex="-1">‹</button>
+        <div class="genre-rail" id="genreRail" role="list" aria-label="Genres">
+          <!-- genre cards injected -->
+        </div>
+        <button class="rail-edge rail-edge--next" id="railNext" aria-label="Scroll genres right" tabindex="-1">›</button>
       </div>
+      <p class="rail-hint" aria-hidden="true">Hover the edges or swipe to browse · click a lane to open it</p>
     </section>
 
     <!-- Projects -->
@@ -83,14 +88,18 @@
         <p class="section__note">Filter by the kind of work. Cards open a floating player with the detail.</p>
       </div>
       <div class="chips" id="projectFilters" role="tablist" aria-label="Project filters"></div>
-      <div class="project-grid" id="projectGrid" role="list"></div>
+      <div class="project-rail-wrap" data-reveal>
+        <button class="rail-edge rail-edge--prev" id="projPrev" aria-label="Scroll projects left" tabindex="-1">‹</button>
+        <div class="project-rail" id="projectGrid" role="list" aria-label="Projects"></div>
+        <button class="rail-edge rail-edge--next" id="projNext" aria-label="Scroll projects right" tabindex="-1">›</button>
+      </div>
     </section>
 
-    <!-- About -->
+    <!-- About & Teaching -->
     <section class="section" id="about">
       <div class="about">
         <div class="about__copy" data-reveal>
-          <span class="section__index">03 — About</span>
+          <span class="section__index">03 — About &amp; Teaching</span>
           <h2 class="section__title">From Yash Raj rooms to my own.</h2>
           <p>Degree in audio engineering from SAE, Pro&nbsp;Tools certified. I cut my teeth at Yash Raj Studios
              before opening <strong>Space Cat Studio</strong> in August 2020 — two rooms where analog warmth meets a
@@ -105,30 +114,25 @@
           <li><span>Also</span> Guest lecturer, AAT College</li>
         </ul>
       </div>
-    </section>
-
-    <!-- Teaching -->
-    <section class="section section--alt" id="teaching">
-      <div class="section__head" data-reveal>
-        <span class="section__index">04 — Teaching</span>
-        <h2 class="section__title">Passing the desk on.</h2>
-      </div>
-      <div class="teach-grid" data-reveal>
-        <article class="teach-card">
-          <h3>Guest Lecturer — AAT College</h3>
-          <p>Workshops on production, recording, mixing, mastering and studio workflow.</p>
-        </article>
-        <article class="teach-card">
-          <h3>Space Cat Internships</h3>
-          <p>Hands-on mentoring in engineering, production and building a career in audio.</p>
-        </article>
+      <div class="about-teach" data-reveal>
+        <span class="about-teach__kicker">Passing the desk on</span>
+        <div class="teach-grid">
+          <article class="teach-card">
+            <h3>Guest Lecturer — AAT College</h3>
+            <p>Workshops on production, recording, mixing, mastering and studio workflow.</p>
+          </article>
+          <article class="teach-card">
+            <h3>Space Cat Internships</h3>
+            <p>Hands-on mentoring in engineering, production and building a career in audio.</p>
+          </article>
+        </div>
       </div>
     </section>
 
     <!-- Contact -->
     <section class="section contact" id="contact">
       <div class="contact__inner" data-reveal>
-        <span class="section__index">05 — Contact</span>
+        <span class="section__index">04 — Contact</span>
         <h2 class="contact__title">Let's make something that lasts.</h2>
         <div class="contact__links">
           <a href="mailto:tamzid@spacecat.in" class="contact__link">tamzid@spacecat.in</a>
@@ -150,6 +154,27 @@
     <div class="overlay__panel" role="dialog" aria-modal="true" aria-labelledby="overlayTitle" id="overlayPanel">
       <button class="overlay__close" data-close aria-label="Close">✕</button>
       <div class="overlay__body" id="overlayBody"><!-- injected --></div>
+    </div>
+  </div>
+
+  <!-- Docked mini-player (Mix & Master tracks play here, bottom-left) -->
+  <div class="mini" id="mini" aria-hidden="true">
+    <div class="mini__bar">
+      <span class="mini__dot" aria-hidden="true"></span>
+      <span class="mini__title" id="miniTitle">Now playing</span>
+      <a class="mini__ext" id="miniExt" href="#" target="_blank" rel="noopener" aria-label="Open on YouTube" title="Open on YouTube">↗</a>
+      <button class="mini__close" id="miniClose" aria-label="Close player">✕</button>
+    </div>
+    <div class="mini__frame" id="miniFrame"></div>
+  </div>
+
+  <!-- Project video pop-up (Beyond the record) -->
+  <div class="lightbox" id="lightbox" aria-hidden="true">
+    <div class="lightbox__scrim" data-lb-close></div>
+    <div class="lightbox__box" role="dialog" aria-modal="true" aria-labelledby="lbTitle">
+      <button class="lightbox__close" data-lb-close aria-label="Close">✕</button>
+      <div class="lightbox__frame" id="lbFrame"></div>
+      <div class="lightbox__meta" id="lbMeta"></div>
     </div>
   </div>
 
