@@ -8,10 +8,10 @@
  * ------------------------------------------------------------------ */
 
 const SANITY = {
-  projectId: '',              // <-- from sanity.io/manage  (e.g. 'ab12cd34')
+  projectId: 'x6v13aev',      // <-- from sanity.io/manage
   dataset: 'production',
   apiVersion: '2024-01-01',
-  enabled: false,             // flip to true once projectId is set
+  enabled: true,              // reads live from Sanity; falls back to DEMO_DATA on failure
 };
 
 /* Genre accent colours drive the whole UI. */
