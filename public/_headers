@@ -1,0 +1,21 @@
+# Cloudflare Pages — response headers
+# https://developers.cloudflare.com/pages/configuration/headers/
+
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  X-Frame-Options: SAMEORIGIN
+  Permissions-Policy: geolocation=(), microphone=(), camera=()
+
+# Long-cache the static assets (they're versioned by content in git)
+/styles.css
+  Cache-Control: public, max-age=3600
+/app.js
+  Cache-Control: public, max-age=3600
+/data.js
+  Cache-Control: public, max-age=300
+
+# Optional hardening — a Content-Security-Policy. Left commented because it must
+# be verified against the LIVE site (fonts, YouTube embeds, Sanity, images). To
+# enable, uncomment and add it under the `/*` block above, then test every page:
+#   Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://i.ytimg.com https://img.youtube.com https://cdn.sanity.io; frame-src https://www.youtube-nocookie.com https://www.youtube.com; connect-src 'self' https://apicdn.sanity.io; base-uri 'self'; form-action 'self'

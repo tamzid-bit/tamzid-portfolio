@@ -13,10 +13,11 @@ export default {
     { name: 'year', title: 'Year', type: 'number' },
     { name: 'role', title: 'Your role', type: 'string', description: 'e.g. "Audio post", "BGM mix & master"' },
     { name: 'note', title: 'Note', type: 'string' },
-    { name: 'link', title: 'Watch / listen link', type: 'url' },
+    { name: 'link', title: 'Watch / listen link (YouTube)', type: 'url', description: 'Card thumbnail is auto-derived from this if no cover is set' },
+    { name: 'cover', title: 'Cover art', type: 'image', options: { hotspot: true }, description: 'Optional override. If empty, the YouTube thumbnail is used.' },
   ],
   preview: {
-    select: { title: 'title', type: 'type', client: 'client' },
-    prepare: ({ title, type, client }) => ({ title, subtitle: `${type} · ${client || ''}` }),
+    select: { title: 'title', type: 'type', client: 'client', media: 'cover' },
+    prepare: ({ title, type, client, media }) => ({ title, subtitle: `${type} · ${client || ''}`, media }),
   },
 };

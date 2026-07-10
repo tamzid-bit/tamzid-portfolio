@@ -1,109 +1,120 @@
 # Deploying tamzidrahman.in
 
-Two pieces:
-1. **The website** (folder `public/`) → Cloudflare Pages (free, fast, HTTPS).
-2. **The content** → Sanity (free "Growth" tier is plenty).
+Three parts, do them in this order:
 
-The site works with built-in demo data immediately, so you can deploy **first**
-and wire Sanity **after**. Do them in this order.
+1. **Ship the site** to Cloudflare Pages (works immediately with the built-in catalog).
+2. **Point the domain** tamzidrahman.in at it.
+3. **Wire Sanity** so you can edit the catalog without touching code.
+
+The site renders from the real catalog baked into `public/data.js` (83 tracks, 15
+projects, 6 genres), so you can deploy first and move to Sanity whenever you like.
 
 ---
 
-## Part 1 — Put the site on Cloudflare Pages
+## Part 1 — Cloudflare Pages (git-connected, auto-deploys)
 
-You don't need a build step. `public/` is plain static files.
+The repo is already on GitHub at `tamzid-bit/tamzid-portfolio`. Connect it once and
+every `git push` to `main` redeploys automatically.
 
-### Option A — Direct upload (fastest, no GitHub)
-1. Go to <https://dash.cloudflare.com> → **Workers & Pages** → **Create** → **Pages** → **Upload assets**.
-2. Name it `tamzid-portfolio`.
-3. Drag the **contents of the `public/` folder** (index.html, styles.css, app.js, data.js) into the uploader. *(Upload the files inside `public/`, not the `public` folder itself.)*
-4. **Deploy**. You get a live URL like `tamzid-portfolio.pages.dev`.
-
-### Option B — GitHub (auto-deploys on every push — recommended long term)
-1. Push this project to a GitHub repo.
-2. Cloudflare → Pages → **Connect to Git** → pick the repo.
+1. <https://dash.cloudflare.com> → **Workers & Pages** → **Create** → **Pages** → **Connect to Git**.
+2. Pick `tamzid-bit/tamzid-portfolio`.
 3. Build settings:
    - **Framework preset:** None
-   - **Build command:** *(leave empty)*
+   - **Build command:** *(leave empty — no build step)*
    - **Build output directory:** `public`
-4. **Save and Deploy**.
+4. **Save and Deploy** → you get `tamzid-portfolio.pages.dev`.
+
+Every push to `main` now rebuilds. (The `public/_headers` file is applied automatically.)
+
+*Prefer no GitHub?* Pages → **Upload assets** and drag the **contents of `public/`**
+(not the folder itself). You'd re-upload on every change, so the git route is better.
 
 ---
 
 ## Part 2 — Point tamzidrahman.in at it
 
-You said the domain is one you know/own.
-
 **If the domain's DNS is already on Cloudflare:**
-1. In your Pages project → **Custom domains** → **Set up a custom domain**.
-2. Enter `tamzidrahman.in`, then also add `www.tamzidrahman.in`.
-3. Cloudflare adds the DNS records automatically. Done — SSL provisions in a few minutes.
+1. Pages project → **Custom domains** → **Set up a custom domain**.
+2. Add `tamzidrahman.in`, then add `www.tamzidrahman.in`.
+3. Cloudflare adds the records; SSL provisions in a few minutes. Apex ↔ www is handled for you.
 
 **If the domain is registered elsewhere (GoDaddy, Namecheap, etc.):**
-1. Add the site to Cloudflare first: Cloudflare dashboard → **Add a site** → `tamzidrahman.in` → Free plan.
-2. Cloudflare shows you **two nameservers** (e.g. `xxx.ns.cloudflare.com`).
-3. At your registrar, replace the existing nameservers with those two. (Propagation: minutes to a few hours.)
-4. Once the site is "Active" in Cloudflare, do the **Custom domains** step above.
-
-Redirect apex ↔ www: Cloudflare Pages handles both automatically once both custom
-domains are attached.
+1. Cloudflare dashboard → **Add a site** → `tamzidrahman.in` → Free plan.
+2. Copy the **two nameservers** Cloudflare gives you.
+3. At your registrar, replace the nameservers with those two (propagation: minutes–hours).
+4. When the site shows **Active**, do the Custom domains step above.
 
 ---
 
-## Part 3 — Wire up Sanity (live, editable content)
+## Part 3 — Sanity (editable catalog) with one-shot import
+
+Your whole catalog is pre-packaged as `sanity/catalog.ndjson` — you import it in one
+command, no retyping. Covers aren't imported: the site derives every thumbnail from the
+YouTube link, so there are no images to upload.
 
 ### 3.1 Create the Studio
 ```bash
-# in a terminal, from anywhere
 npm create sanity@latest -- --template clean --create-project "Tamzid Portfolio" --dataset production
 ```
-- Log in (Google/GitHub).
-- When it finishes, note the **Project ID** it prints (also at <https://sanity.io/manage>).
-- Replace the schema in the generated project with the files in **`sanity/schemaTypes/`**
-  here (`genre.js`, `track.js`, `project.js`, `index.js`), and set the `projectId`
-  in `sanity/sanity.config.js`.
+Log in, and note the **Project ID** it prints (also at <https://sanity.io/manage>).
+Then copy this repo's schema into the generated studio:
+- replace its `schemaTypes/` with the four files from **`sanity/schemaTypes/`** here, and
+- set `projectId` in the studio's `sanity.config.js`.
 
-### 3.2 Allow your website to read the data (CORS)
-<https://sanity.io/manage> → your project → **API** → **CORS origins** → **Add**:
-- `https://tamzidrahman.in`
-- `https://www.tamzidrahman.in`
-- `https://tamzid-portfolio.pages.dev`
-- `http://localhost:4123` (for local testing)
-
-Leave **"Allow credentials"** unchecked — reads are public, no token needed.
-
-### 3.3 Run the Studio and add content
+### 3.2 Import the catalog (all 104 documents)
+From inside the studio folder:
 ```bash
-cd your-studio-folder
-npm install
-npm run dev        # opens http://localhost:3333
+npx sanity dataset import /path/to/tamzid-portfolio/sanity/catalog.ndjson production
 ```
-Add your **Genres** first (each needs a slug + hex colour), then **Tracks**
-(reference a genre, tick Mix/Master/Produce), then **Projects**.
-Publish each document.
+That creates 6 genres, 83 tracks (linked to their genre), and 15 projects.
+*Re-run later?* Add `--replace` to overwrite by id instead of erroring on duplicates.
+
+> Regenerate the file after editing `public/data.js`:
+> `pip install json5 && python3 sanity/scripts/build-ndjson.py`
+
+### 3.3 Fix the two known data gaps in the Studio
+```bash
+npm run dev        # http://localhost:3333
+```
+- **Roles:** every track imported as `Mix, Master` (YouTube exposes no role data).
+  Correct any that were Produce / mix-only.
+- **Years:** these are YouTube *upload* years; a few ad years look like brand re-uploads
+  (flagged in each doc's note). Adjust where needed.
 
 Deploy the Studio so you can edit from anywhere:
 ```bash
-npm run deploy     # gives you tamzid.sanity.studio
+npm run deploy     # → tamzid.sanity.studio
 ```
 
-### 3.4 Flip the site to live data
-In **`public/data.js`**, edit the top block:
+### 3.4 Let the site read Sanity (CORS)
+<https://sanity.io/manage> → project → **API** → **CORS origins** → add (no credentials):
+`https://tamzidrahman.in`, `https://www.tamzidrahman.in`,
+`https://tamzid-portfolio.pages.dev`, `http://localhost:4123`.
+
+### 3.5 Flip the site to live data
+In **`public/data.js`**, top block:
 ```js
 const SANITY = {
-  projectId: 'YOUR_PROJECT_ID',   // <-- paste it here
+  projectId: 'YOUR_PROJECT_ID',   // paste it
   dataset: 'production',
   apiVersion: '2024-01-01',
-  enabled: true,                  // <-- was false
+  enabled: true,                  // was false
 };
 ```
-Re-upload `data.js` (or push to GitHub). The site now reads from Sanity and falls
-back to the demo data automatically if the API is ever unreachable.
+`git push` → Cloudflare redeploys → the site now reads Sanity and auto-falls-back to the
+baked-in catalog if the API is ever unreachable.
 
 ---
 
+## Booking integration (already live)
+The **Book a session** section deep-links to your Space Cat module at
+`https://spacecat.in/?engineer=Tamzid#booking` (Tamzid pre-selected). spacecat.in sends
+`X-Frame-Options: DENY`, so it can't be iframed — the deep-link is by design and keeps all
+bookings + payment on Space Cat. To change the URL/param, edit the `BOOKING` block at the
+top of `public/app.js`.
+
 ## Maintenance cheat-sheet
-- **Add a song/genre/project:** edit in Sanity Studio → Publish. Live in ~seconds (CDN cache).
-- **Change a genre colour:** edit the genre's `color` field — the whole UI accent follows it.
-- **Change site copy/design:** edit files in `public/`, re-upload or `git push`.
-- **Nothing shows up?** Check CORS origins (3.2) and that `enabled: true`.
+- **Add/edit a track or project:** Sanity Studio → Publish (live in seconds), *or* edit
+  `public/data.js` and `git push`.
+- **Change a genre colour:** edit the genre's `color` — the whole UI accent follows it.
+- **Nothing shows after enabling Sanity?** Check CORS (3.4) and `enabled: true`.
