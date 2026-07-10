@@ -72,8 +72,9 @@ img { max-width: 100%; display: block; }
   border-bottom-color: var(--line);
 }
 .nav__brand { display: flex; align-items: center; gap: 10px; font-family: var(--font-display); font-weight: 600; }
-.nav__mark { color: var(--accent); font-size: 20px; transition: transform .6s var(--ease); }
-.nav__brand:hover .nav__mark { transform: rotate(180deg); }
+.nav__mark { display: inline-flex; width: 22px; height: 22px; transition: transform .4s var(--spring); transform-origin: center bottom; }
+.nav__mark svg { width: 100%; height: 100%; display: block; }
+.nav__brand:hover .nav__mark { transform: scaleY(1.15); }
 .nav__links { display: flex; gap: 26px; margin-left: auto; font-size: 14px; }
 .nav__links a { color: var(--text-dim); transition: color .2s; }
 .nav__links a:hover { color: var(--text); }
