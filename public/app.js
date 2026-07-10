@@ -9,6 +9,22 @@
 
   let DATA = DEMO_DATA;
 
+  /* -------- booking: hands off to the Space Cat module (all bookings live there) --------
+     Edit these three values if the real route / param differ. The engineer param
+     pre-selects Tamzid in the Space Cat booking flow. spacecat.in forbids being
+     iframed (X-Frame-Options: DENY), so we deep-link out in a new tab by design. */
+  const BOOKING = {
+    base: 'https://spacecat.in/book',   // fallback used if this route 404s: 'https://spacecat.in/#booking'
+    params: { engineer: 'tamzid' },      // pre-selects Tamzid as the engineer
+  };
+  function bookingUrl() {
+    const qs = new URLSearchParams(BOOKING.params).toString();
+    return qs ? `${BOOKING.base}?${qs}` : BOOKING.base;
+  }
+  function wireBooking() {
+    $$('[data-book-link]').forEach(a => { a.href = bookingUrl(); });
+  }
+
   /* -------- 0. youtube helpers -------- */
   const ytId = url => {
     if (!url) return '';
@@ -350,7 +366,7 @@
 
   function buildPaletteIndex() {
     const items = [
-      ...['work', 'projects', 'about', 'contact'].map(id => ({
+      ...['work', 'projects', 'about', 'book', 'contact'].map(id => ({
         label: id[0].toUpperCase() + id.slice(1), kind: 'Section', action: () => scrollTo(`#${id}`),
       })),
       ...DATA.genres.map(g => ({
@@ -454,6 +470,7 @@
     DATA = await loadData();
     $('#statTracks').textContent = DATA.tracks.length;
     $('#statGenres').textContent = DATA.genres.length;
+    wireBooking();
     buildCollage();
     renderGenreRail();
     renderProjects();
