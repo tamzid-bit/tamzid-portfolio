@@ -14,12 +14,15 @@
      pre-selects Tamzid in the Space Cat booking flow. spacecat.in forbids being
      iframed (X-Frame-Options: DENY), so we deep-link out in a new tab by design. */
   const BOOKING = {
-    base: 'https://spacecat.in/book',   // fallback used if this route 404s: 'https://spacecat.in/#booking'
-    params: { engineer: 'tamzid' },      // pre-selects Tamzid as the engineer
+    base: 'https://spacecat.in/',        // site root
+    hash: '#booking',                    // scrolls to the Space Cat booking module
+    params: { engineer: 'Tamzid' },      // pre-selects Tamzid as the engineer
   };
+  // query goes BEFORE the hash so the SPA reads it from location.search:
+  //   https://spacecat.in/?engineer=Tamzid#booking
   function bookingUrl() {
     const qs = new URLSearchParams(BOOKING.params).toString();
-    return qs ? `${BOOKING.base}?${qs}` : BOOKING.base;
+    return BOOKING.base + (qs ? `?${qs}` : '') + (BOOKING.hash || '');
   }
   function wireBooking() {
     $$('[data-book-link]').forEach(a => { a.href = bookingUrl(); });
