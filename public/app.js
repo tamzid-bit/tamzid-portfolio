@@ -34,9 +34,21 @@
     const m = String(url).match(/(?:youtu\.be\/|[?&]v=|\/embed\/|\/shorts\/)([\w-]{6,})/);
     return m ? m[1] : '';
   };
-  const ytThumb = id => `https://i.ytimg.com/vi/${id}/mqdefault.jpg`;   // 16:9, always present
+  const ytThumb = id => `https://i.ytimg.com/vi/${id}/hqdefault.jpg`;      // 480p — always present
+  const ytThumbSmall = id => `https://i.ytimg.com/vi/${id}/mqdefault.jpg`; // 320p — for the dense hero wall
+  const ytMaxres = id => `https://i.ytimg.com/vi/${id}/maxresdefault.jpg`; // 720p — HD uploads only
   const ytEmbed = id => `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0&modestbranding=1&playsinline=1`;
   const esc = s => String(s ?? '').replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
+  /* Upgrade a thumbnail background to 720p once we confirm the HD frame exists
+     (maxresdefault 404s or returns a 120px placeholder for non-HD uploads). */
+  const upgradeArt = el => {
+    const id = el && el.dataset && el.dataset.vid;
+    if (!id) return;
+    const probe = new Image();
+    probe.onload = () => { if (probe.naturalWidth > 300) el.style.backgroundImage = `url('${ytMaxres(id)}')`; };
+    probe.src = ytMaxres(id);
+  };
 
   /* -------- 1. load content (Sanity or demo) -------- */
   async function loadData() {
@@ -64,9 +76,9 @@
     rail.innerHTML = DATA.genres.map(g => {
       const tracks = tracksIn(g.slug);
       const n = tracks.length;
-      const arts = [...new Set(tracks.map(trackArt).filter(Boolean))].slice(0, 6);
-      const layers = arts.length
-        ? arts.map((src, i) => `<span class="art-layer${i === 0 ? ' is-on' : ''}" style="background-image:url('${src}')"></span>`).join('')
+      const ids = [...new Set(tracks.map(t => ytId(t.youtube)).filter(Boolean))].slice(0, 6);
+      const layers = ids.length
+        ? ids.map((id, i) => `<span class="art-layer${i === 0 ? ' is-on' : ''}" data-vid="${id}" style="background-image:url('${ytThumb(id)}')"></span>`).join('')
         : `<span class="art-layer art-layer--empty is-on"></span>`;
       return `
         <button class="genre-card" role="listitem" data-genre="${g.slug}" style="--c:${g.color}"
@@ -83,6 +95,7 @@
     }).join('');
     $$('.genre-card', rail).forEach(c =>
       c.addEventListener('click', () => openGenre(c.dataset.genre)));
+    $$('.art-layer[data-vid]', rail).forEach(upgradeArt);
     startArtCycle(rail);
     initRail('#genreRail', '#railPrev', '#railNext');
   }
@@ -138,7 +151,7 @@
       ...DATA.tracks.map(t => ytId(t.youtube)),
       ...DATA.projects.map(p => ytId(p.link)),
     ].filter(Boolean);
-    const arts = [...new Set(ids)].map(ytThumb);           // small tier: tiles render ~160px wide
+    const arts = [...new Set(ids)].map(ytThumbSmall);      // small tier: tiles render ~160px wide
     if (!arts.length) return;
     // deterministic shuffle so the collage looks mixed but stable across loads
     const hash = s => { let h = 0; for (const ch of s) h = (h * 31 + ch.charCodeAt(0)) & 0xffff; return h; };
@@ -330,9 +343,9 @@
     const grid = $('#projectGrid');
     grid.innerHTML = DATA.projects.map((p, i) => {
       const id = ytId(p.link);
-      const art = p.cover || (id ? ytThumb(id) : '');
+      const art = id ? ytThumb(id) : (p.cover || '');
       const thumb = art
-        ? `<span class="project-card__thumb" style="background-image:url('${art}')"></span>`
+        ? `<span class="project-card__thumb"${id ? ` data-vid="${id}"` : ''} style="background-image:url('${art}')"></span>`
         : `<span class="project-card__thumb project-card__thumb--empty"></span>`;
       const play = id ? `<span class="project-card__play" aria-hidden="true">▶</span>` : '';
       return `
@@ -349,6 +362,7 @@
 
     $$('.project-card', grid).forEach(c =>
       c.addEventListener('click', () => openProject(DATA.projects[+c.dataset.i])));
+    $$('.project-card__thumb[data-vid]', grid).forEach(upgradeArt);
     $$('.chip', filters).forEach(chip => chip.addEventListener('click', () => {
       $$('.chip', filters).forEach(c => c.classList.remove('is-active'));
       chip.classList.add('is-active');
